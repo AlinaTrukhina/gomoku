@@ -4,8 +4,13 @@ import learn.gomoku.players.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class Gomoku {
+
+    Scanner newScanner = new Scanner(System.in);
 
     public static final int WIDTH = 15;
 
@@ -48,6 +53,38 @@ public class Gomoku {
         } else {
             current = playerTwo;
         }
+
+        //        while game is not over:
+        do {
+//            print board
+
+//        check who current player is
+            Player currentPlayer = getCurrent();
+//            String name = currentPlayer.getName();
+//            System.out.println(name+"'s turn");
+            Stone newStone = currentPlayer.generateMove(stones);
+//        if human, as for stone placement; if generateMove() == null, player is human
+            if (newStone == null) {
+                System.out.println("Enter row number:");
+                int row = parseInt(newScanner.nextLine());
+                System.out.println("Enter column number:");
+                int col = parseInt(newScanner.nextLine());
+                boolean isBlack = isBlacksTurn();
+                Stone humanStone = new Stone(row, col, isBlack);
+                Result newResult = place(humanStone);
+                System.out.println(newResult.getMessage());
+            } else {
+                Result newResult = place(newStone);
+                System.out.println(newResult.getMessage());
+            }
+//            check if stone placement is valid
+//        if computer, place stone
+//          check if new stone has valid placement
+//              (if yes, place stone
+//              if no, ask for new stone)
+//        print board
+
+        } while (!isOver());
     }
 
     public Result place(Stone stone) {
@@ -139,5 +176,6 @@ public class Gomoku {
 
         return result;
     }
+
 
 }
